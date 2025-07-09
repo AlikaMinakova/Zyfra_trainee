@@ -1,0 +1,16 @@
+venv
+.idea
+
+.env
+*.envgit
+
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+
+*.db
+*.sock
+*.tar
+*.gz
