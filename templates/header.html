@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container px-4"> <!-- обернули в container -->
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav me-auto">
+                <!-- Техника -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="techDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Техника
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="techDropdown">
+                        <li><a class="dropdown-item" href="{% url 'items:create_type_tech' %}">Создать тип</a></li>
+                        <li><a class="dropdown-item" href="{% url 'items:list_delete_type_tech' %}">Список типов</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'items:create_tech' %}">Создать технику</a></li>
+                        <li><a class="dropdown-item" href="{% url 'items:list_delete_tech' %}">Список техники</a></li>
+                    </ul>
+                </li>
+                <!-- Запчасти -->
+                <li class="nav-item dropdown ms-4">
+                    <a class="nav-link dropdown-toggle" href="#" id="partsDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Запчасти
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="partsDropdown">
+                        <li><a class="dropdown-item" href="{% url 'items:create_spare_part_type' %}">Создать тип</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'items:list_delete_spare_part_type' %}">Список
+                            типов</a></li>
+                        <li><a class="dropdown-item" href="{% url 'items:create_spare_part' %}">Создать запчасть</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'items:list_delete_spare_part' %}">Список
+                            запчастей</a></li>
+                    </ul>
+                </li>
+                <!-- Атрибуты -->
+                <li class="nav-item dropdown ms-4">
+                    <a class="nav-link dropdown-toggle" href="#" id="attrDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Атрибуты
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="attrDropdown">
+                        <li><a class="dropdown-item" href="{% url 'items:create_attr' %}">Создать атрибут</a></li>
+                        <li><a class="dropdown-item" href="{% url 'items:list_delete_attr' %}">Список атрибутов</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

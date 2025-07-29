@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Карточка запчасти{% endblock %}
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Заголовок -->
+    <h2 class="mb-4">Карточка запчасти</h2>
+
+    <!-- Основная информация -->
+    <div class="mb-4">
+        <p><strong>Тип запчасти:</strong> Фильтр масляный</p>
+        <p><strong>Техника:</strong> УРАЛ 1A123BC</p>
+        <p><strong>Статус:</strong> Установлено</p>
+        <p><strong>Создано:</strong> 2025-07-18 13:05</p>
+        <p><strong>Обновлено:</strong> 2025-07-19 14:20</p>
+        <p><strong>Удалено:</strong> <span style="color: purple; font-size: 1.2rem;">✘</span></p>
+    </div>
+
+    <!-- Атрибуты -->
+    <h5 class="mb-3">Атрибуты</h5>
+    <div class="table-responsive mb-4">
+        <table class="table table-bordered">
+            <thead class="table-light">
+            <tr>
+                <th>Название</th>
+                <th>Значение</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Диаметр (мм)</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>Вес (кг)</td>
+                <td>3.2</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Фотографии -->
+    <div class="mb-5">
+        <h5 class="mb-3">Фотографии</h5>
+        <div class="row g-3">
+            <div class="col-md-4 col-sm-6">
+                <img src="URL_ФОТО_1" class="img-fluid rounded shadow-sm" alt="Фото 1">
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <img src="URL_ФОТО_2" class="img-fluid rounded shadow-sm" alt="Фото 2">
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <img src="URL_ФОТО_3" class="img-fluid rounded shadow-sm" alt="Фото 3">
+            </div>
+        </div>
+    </div>
+    <!-- Лог изменений -->
+    <h5 class="mb-3">Лог изменений</h5>
+    <ul class="list-group mb-4">
+        <li class="list-group-item">
+            <strong>2025-07-19 14:20</strong> — Изменено значение атрибута "Вес" с 3.0 на 3.2
+        </li>
+        <li class="list-group-item">
+            <strong>2025-07-18 13:05</strong> — Создана запчасть, добавлены фото
+        </li>
+    </ul>
+</div>
+
+<!-- Кнопка назад -->
+<a href="{% url 'items:list_delete_spare_part' %}" class="btn btn-secondary mt-4">Назад к списку запчастей</a>
+</div>
+{% endblock %}

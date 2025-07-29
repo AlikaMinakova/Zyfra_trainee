@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование атрибута{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Редактирование атрибута</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="regNum" class="form-label">Название</label>
+        <input type="text" class="form-control" id="regNum" name="reg_number" value="Диаметр">
+    </div>
+    <div class="mb-3">
+        <label for="unit" class="form-label">Едиица измерения</label>
+        <input type="text" class="form-control" id="unit" name="reg_number" value="мм">
+    </div>
+    <div class="mb-3">
+    <label for="data_type" class="form-label">Тип данных</label>
+    <select class="form-select" id="data_type" name="status">
+      <option value="working" selected>string</option>
+      <option value="repair">decimal</option>
+      <option value="idle">float</option>
+    </select>
+  </div>
+    <div class="mb-3">
+        <label for="date_create" class="form-label">Дата создания</label>
+        <input type="date" class="form-control" id="date_create" name="reg_number" value="2025-01-07" disabled>
+    </div>
+    <div class="mb-3">
+        <label for="date_update" class="form-label">Дата обновления</label>
+        <input type="date" class="form-control" id="date_update" name="reg_number" value="2025-07-19" disabled>
+    </div>
+    <div class="mb-3">
+        <label for="delete" class="form-label">Удалено</label>
+        <input type="text" class="form-control" id="delete" name="reg_number" value="✘" disabled>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

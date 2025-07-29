@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Создание запчасти{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Создание запчасти</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="partType" class="form-label">Тип запчасти</label>
+        <select id="partType" class="form-select">
+            <option selected disabled>Выберите тип...</option>
+            <option>Двигатель</option>
+            <option>Колесо</option>
+            <option>Фильтр</option>
+        </select>
+    </div>
+    <!-- Закрепить за техникой -->
+    <div class="mb-3">
+        <label for="equipment" class="form-label">Закрепить за техникой</label>
+        <select id="equipment" class="form-select">
+            <option selected disabled>Выберите технику...</option>
+            <option>Трактор</option>
+            <option>Комбайн</option>
+            <option>Погрузчик</option>
+        </select>
+    </div>
+    <!-- Статус -->
+    <div class="mb-3">
+        <label for="status" class="form-label">Статус</label>
+        <select id="status" class="form-select">
+            <option selected>Установлено</option>
+            <option>Снято</option>
+            <option>На складе</option>
+        </select>
+    </div>
+
+    <!-- Атрибуты -->
+    <div class="mb-3">
+        <label class="form-label">Атрибуты</label>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th style="width:50px;"></th>
+                    <th>Название</th>
+                    <th style="width: 300px;">Значение</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input class="form-check-input" type="checkbox"></td>
+                    <td>Диаметр (мм)</td>
+                    <td><input type="text" class="form-control" placeholder="Например: 50"></td>
+                </tr>
+                <tr>
+                    <td><input class="form-check-input" type="checkbox"></td>
+                    <td>Вес (кг)</td>
+                    <td><input type="text" class="form-control" placeholder="Например: 3.2"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Фотографии</label>
+        <input type="file" class="form-control mb-2" name="photo1" accept="image/*">
+        <input type="file" class="form-control mb-2" name="photo2" accept="image/*">
+        <input type="file" class="form-control" name="photo3" accept="image/*">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

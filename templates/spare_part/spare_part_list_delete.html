@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Список запчастей{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Список запчастей</h2>
+
+    <!-- Таблица -->
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+            <thead class="table-light text-center">
+            <tr>
+                <th>ID</th>
+                <th>Тип</th>
+                <th>Техника</th>
+                <th>Статус</th>
+                <th>Дата создания</th>
+                <th>Удалено</th>
+                <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody class="text-center">
+            <tr>
+                <td>1</td>
+                <td>Фильтр</td>
+                <td>Урал A123BC</td>
+                <td>Установлено</td>
+                <td>2024-01-10</td>
+                <td style="color: purple; font-size: 1.2rem;">✘</td>
+                <td>
+                    <div class="d-flex gap-2 justify-content-start">
+                        <a href="{% url 'items:read_spare_part' %}">
+                            <button class="btn btn-secondary btn-sm">Открыть</button></a>
+                        <a href="{% url 'items:update_spare_part' %}">
+                            <button class="btn btn-info btn-sm text-white">Редактировать</button></a>
+                        <button class="btn btn-danger btn-sm">Удалить</button>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Тормозной диск</td>
+                <td>Камаз B456DE</td>
+                <td>На складе</td>
+                <td>2024-01-10</td>
+                <td style="color: purple; font-size: 1.2rem;">✔</td>
+                <td>
+                    <div class="d-flex gap-2 justify-content-start">
+                        <a href="{% url 'items:read_spare_part' %}">
+                            <button class="btn btn-secondary btn-sm">Открыть</button></a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Пагинация -->
+    <nav aria-label="Навигация по страницам">
+        <ul class="pagination justify-content-center mt-4">
+            <li class="page-item">
+                <a class="page-link" href="#">Предыдущая</a>
+            </li>
+            <li class="page-item active">
+                <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">2</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="#">Следующая</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}

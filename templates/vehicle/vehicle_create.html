@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Создание техники{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Создание техники</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label for="regNum" class="form-label">Регистрационный номер</label>
+    <input type="text" class="form-control" id="regNum" name="reg_number" placeholder="Например, A123BC">
+  </div>
+
+  <div class="mb-3">
+    <label for="brand" class="form-label">Бренд</label>
+    <input type="text" class="form-control" id="brand" name="brand" placeholder="Например, УРАЛ">
+  </div>
+
+  <div class="mb-3">
+    <label for="purchaseDate" class="form-label">Дата покупки</label>
+    <input type="date" class="form-control" id="purchaseDate" name="purchase_date">
+  </div>
+
+  <div class="mb-3">
+    <label for="type" class="form-label">Тип техники</label>
+    <select class="form-select" id="type" name="type">
+      <option selected disabled>Выберите тип...</option>
+      <option value="tractor">Трактор</option>
+      <option value="truck">Грузовик</option>
+      <option value="excavator">Экскаватор</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="mileage" class="form-label">Пробег (км)</label>
+    <input type="number" class="form-control" id="mileage" name="mileage" value="0" min="0">
+  </div>
+
+  <div class="mb-3">
+    <label for="status" class="form-label">Статус эксплуатации</label>
+    <select class="form-select" id="status" name="status">
+      <option value="working" selected>В работе</option>
+      <option value="repair">На ремонте</option>
+      <option value="idle">Простаивает</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Фотографии</label>
+    <input type="file" class="form-control mb-2" name="photo1" accept="image/*">
+    <input type="file" class="form-control mb-2" name="photo2" accept="image/*">
+    <input type="file" class="form-control" name="photo3" accept="image/*">
+  </div>
+
+  <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

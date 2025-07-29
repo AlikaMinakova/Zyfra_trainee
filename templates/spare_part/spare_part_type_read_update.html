@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Редактирование типа запчасти{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Редактирование типа запчасти</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="regNum" class="form-label">Название типа</label>
+        <input type="text" class="form-control" id="regNum" name="reg_number" value="Фильтр">
+    </div>
+    <div class="mb-3">
+        <label for="date_create" class="form-label">Дата создания</label>
+        <input type="date" class="form-control" id="date_create" name="reg_number" value="2025-01-07" disabled>
+    </div>
+    <div class="mb-3">
+        <label for="date_update" class="form-label">Дата обновления</label>
+        <input type="date" class="form-control" id="date_update" name="reg_number" value="2025-07-19" disabled>
+    </div>
+    <div class="mb-3">
+        <label for="delete" class="form-label">Удалено</label>
+        <input type="text" class="form-control" id="delete" name="reg_number" value="✘" disabled>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}

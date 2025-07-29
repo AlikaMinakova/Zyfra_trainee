@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Создание типа техники{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Создание типа техники</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label for="regNum" class="form-label">Название типа</label>
+    <input type="text" class="form-control" id="regNum" name="reg_number" placeholder="Например, трактор">
+  </div>
+  <button type="submit" class="btn btn-primary">Сохранить</button>
+</form>
+{% endblock %}
