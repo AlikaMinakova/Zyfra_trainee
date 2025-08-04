@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Редактирование типа техники
+    {% else %}
+        Создание типа техники
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <main class="container mt-5 mb-5">
+        <h2 class="mb-4">
+            {% if form.instance.pk %}
+                Редактирование типа техники
+            {% else %}
+                Создание типа техники
+            {% endif %}
+        </h2>
+        <form method="post" enctype="multipart/form-data"
+              action="{% if form.instance.pk %}
+                      {% url 'vehicle:vehicletype_update' form.instance.pk %}
+                  {% else %}
+                      {% url 'vehicle:vehicletype_create' %}
+                  {% endif %}">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                {{ form.name.label_tag }}
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <div class="text-danger small">
+                        {{ form.name.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if is_edit %}
+                <div class="mb-3">
+                    <label class="form-label">Дата создания</label>
+                    <input type="date" class="form-control" value="{{ instance.created_at|date:'Y-m-d' }}"
+                           disabled>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Дата обновления</label>
+                    <input type="date" class="form-control" value="{{ instance.updated_at|date:'Y-m-d' }}"
+                           disabled>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Удалено</label>
+                    <input type="text" class="form-control" value="{{ instance.is_deleted|yesno:'✔,✘' }}" disabled>
+                </div>
+            {% endif %}
+
+            {% if form.instance.pk and form.instance.is_deleted %}
+                <div class="alert alert-warning">
+                    Тип техники помечен как удалённый. Сохранение отключено.
+                </div>
+                <button type="submit" class="btn btn-secondary" disabled>Сохранить</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            {% endif %}
+        </form>
+    </main>
+{% endblock %}

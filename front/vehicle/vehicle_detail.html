@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Карточка техники{% endblock %}
+
+{% block content %}
+    <main class="container mt-5">
+        <h2 class="mb-4">Карточка техники</h2>
+
+        <div class="mb-4">
+            <p><strong>Регистрационный номер:</strong> {{ vehicle.reg_number }}</p>
+            <p><strong>Бренд:</strong> {{ vehicle.brand }}</p>
+            <p><strong>Дата покупки:</strong> {{ vehicle.date_purchase }}</p>
+            <p><strong>Тип техники:</strong> {{ vehicle.type.name }}</p>
+            <p><strong>Пробег:</strong> {{ vehicle.mileage }} км</p>
+            <p><strong>Статус эксплуатации:</strong>
+                {% if vehicle.get_operation_status_display == 'В работе' %}
+                    <span class="text-success">в работе</span>
+                {% elif vehicle.get_operation_status_display == 'Ремонт' %}
+                    <span class="text-danger">на ремонте</span>
+                {% else %}
+                    <span class="text-warning">простаивает</span>
+                {% endif %}
+            </p>
+            <p><strong>Создано:</strong> {{ vehicle.created_at|date:"Y-m-d" }}</p>
+            <p><strong>Обновлено:</strong> {{ vehicle.updated_at|date:"Y-m-d" }}</p>
+            <p><strong>Удалено:</strong>
+                {% if vehicle.is_deleted %}
+                    <span style="color: red; font-size: 1.2rem;">✔</span>
+                {% else %}
+                    <span style="color: purple; font-size: 1.2rem;">✘</span>
+                {% endif %}
+            </p>
+        </div>
+
+        {% if images %}
+            <div class="mb-5">
+                <h5 class="mb-3">Фотографии</h5>
+                <div class="row g-3">
+                    {% for img in images %}
+                        {% if img.file %}
+                            <div class="col-md-4 col-sm-6">
+                                <img src="{{ img.file.url }}" class="img-fluid rounded shadow-sm"
+                                     alt="Фото {{ forloop.counter }}">
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+
+        {# Заглушка для раздела "Запчасти" #}
+        <h5 class="mb-3">Запчасти</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Тип</th>
+                    <th>Статус</th>
+                    <th>Дата установки</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                <tr>
+                    <td>17</td>
+                    <td>Шина</td>
+                    <td>Установлено</td>
+                    <td>2025-01-15</td>
+                    <td class="text-start">
+                        <a href="#" class="btn btn-info btn-sm text-white">Открыть</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>Фильтр</td>
+                    <td>На складе</td>
+                    <td>—</td>
+                    <td class="text-start">
+                        <a href="#" class="btn btn-info btn-sm text-white">Открыть</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'vehicle:vehicle_list' %}" class="btn btn-secondary mt-4">Назад к списку техники</a>
+    </main>
+{% endblock %}

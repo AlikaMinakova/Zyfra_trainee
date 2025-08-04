@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Редактирование техники
+    {% else %}
+        Создание техники
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <main class="container mt-5 mb-5">
+        <h2 class="mb-4">
+            {% if form.instance.pk %}
+                Редактирование техники
+            {% else %}
+                Создание техники
+            {% endif %}
+        </h2>
+
+        <form method="post" enctype="multipart/form-data" action="
+                        {% if form.instance.pk %}
+                            {% url 'vehicle:vehicle_update' form.instance.pk %}
+                        {% else %}
+                            {% url 'vehicle:vehicle_create' %}
+                        {% endif %}">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class="mb-3">
+                {{ form.reg_number.label_tag }}
+                {{ form.reg_number }}
+                {{ form.reg_number.errors }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.brand.label_tag }}
+                {{ form.brand }}
+                {{ form.brand.errors }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.date_purchase.label_tag }}
+                {{ form.date_purchase }}
+                {{ form.date_purchase.errors }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.type.label_tag }}
+                {{ form.type }}
+                {{ form.type.errors }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.mileage.label_tag }}
+                {{ form.mileage }}
+                {{ form.mileage.errors }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.operation_status.label_tag }}
+                {{ form.operation_status }}
+                {{ form.operation_status.errors }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Фотографии</label>
+                {{ image_formset.management_form }}
+
+                <div class="row">
+                    {% for img_form in image_formset %}
+                        {% if img_form.instance.pk %}
+                            {{ img_form.id }}
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <img src="{{ img_form.instance.file.url }}" class="card-img-top img-thumbnail"
+                                         alt="Фото"
+                                         style="max-height: 200px; object-fit: cover;">
+                                    <div class="card-body">
+                                        <div class="form-check">
+                                            {{ img_form.DELETE }}
+                                            <label class="form-check-label" for="{{ img_form.DELETE.id_for_label }}">Удалить</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="row">
+                    {% for form_img in image_formset %}
+                        {% if not form_img.instance.pk %}
+                            <div class="mb-3">
+                                {{ form_img.file }}
+                                {{ form_img.file.errors }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {{ image_formset.management_form }}
+
+            {% if form.instance.pk %}
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            {% endif %}
+        </form>
+    </main>
+{% endblock %}
