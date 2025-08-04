@@ -140,9 +140,11 @@ class VehicleListView(ListView):
 
 class VehicleDeleteView(View):
     def post(self, request, pk):
-        vehicle = get_object_or_404(Vehicle, pk=pk)
-        vehicle.is_deleted = True
-        vehicle.save()
+        with transaction.atomic():
+            vehicle = get_object_or_404(Vehicle, pk=pk)
+            vehicle.is_deleted = True
+            vehicle.save()
+            VehicleImage.objects.filter(vehicle=vehicle).update(is_deleted=True)
         return redirect('/vehicles/')
 
 
@@ -188,6 +190,8 @@ class VehicleTypeDeleteView(View):
             vehicle_type.is_deleted = True
             vehicle_type.save()
 
-            Vehicle.objects.filter(type=vehicle_type).update(is_deleted=True)
+            vehicles = Vehicle.objects.filter(type=vehicle_type)
+            vehicles.update(is_deleted=True)
 
+            VehicleImage.objects.filter(vehicle__in=vehicles).update(is_deleted=True)
         return redirect('vehicle:vehicletype_list')
