@@ -54,15 +54,6 @@ class VehicleUpdateView(UpdateView):
     template_name = 'vehicle/vehicle_form.html'
     success_url = reverse_lazy('vehicle:vehicle_list')
 
-    def get_image_formset(self, data=None, files=None):
-        ImageFormSet = inlineformset_factory(
-            Vehicle, VehicleImage,
-            form=VehicleImageForm,
-            extra=3,
-            can_delete=True
-        )
-        return ImageFormSet(data, files, instance=self.object) if data else ImageFormSet(instance=self.object)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         ImageFormSet = inlineformset_factory(
@@ -145,7 +136,7 @@ class VehicleDeleteView(View):
             vehicle.is_deleted = True
             vehicle.save()
             VehicleImage.objects.filter(vehicle=vehicle).update(is_deleted=True)
-        return redirect('/vehicles/')
+        return redirect('vehicle:vehicletype_list')
 
 
 class VehicleTypeCreateView(CreateView):
