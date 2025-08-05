@@ -54,4 +54,4 @@ class VehicleTypeForm(forms.ModelForm):
 
 
 class VehicleFilterForm(forms.Form):
-    brand = forms.CharField(label='Марка', required=False)
+    brand = forms.CharField(label='Бренд', required=False)
