@@ -1,4 +1,5 @@
 from django.db import models
+from sorl.thumbnail import ImageField
 
 
 class VehicleStatus(models.TextChoices):
@@ -38,7 +39,7 @@ class Vehicle(models.Model):
 
 
 class VehicleImage(models.Model):
-    file = models.ImageField(upload_to='vehicle_images/', verbose_name='Фото')
+    file = ImageField(upload_to='vehicle_images/', verbose_name='Фото')
     vehicle = models.ForeignKey(
         Vehicle,
         on_delete=models.CASCADE,

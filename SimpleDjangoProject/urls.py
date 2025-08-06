@@ -22,7 +22,7 @@ from SimpleDjangoProject import settings
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include('vehicle.urls', namespace='vehicle')),
+    path('vehicle/', include('vehicle.urls', namespace='vehicle')),
 ]
 
 if settings.DEBUG:

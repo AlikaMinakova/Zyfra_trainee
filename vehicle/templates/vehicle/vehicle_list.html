@@ -1,8 +1,10 @@
-{% extends "base.html" %}
+{% extends "vehicle/base.html" %}
 {% load static %}
 
 {% block title %}Список техники{% endblock %}
-
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
 {% block content %}
     <main class="container mt-5">
         <h2 class="mb-4">Список техники</h2>
@@ -10,15 +12,17 @@
         <form method="get" class="mb-4" style="max-width: 100%;">
             <div class="mb-3">
                 <label for="brandFilter" class="form-label">Фильтр по бренду</label>
-                <input
-                        type="text"
-                        name="{{ filter_form.brand.html_name }}"
-                        value="{{ filter_form.brand.value|default_if_none:'' }}"
-                        class="form-control"
-                        id="brandFilter"
-                        placeholder="Например, УРАЛ"
-                >
-            </div>
+                <div class="input-group mb-3">
+        <input
+            type="text"
+            name="{{ filter_form.brand.html_name }}"
+            value="{{ filter_form.brand.value|default_if_none:'' }}"
+            class="form-control"
+            id="brandFilter"
+            placeholder="Например, УРАЛ"
+        >
+        <button class="btn btn-primary" type="submit">Найти</button>
+    </div>
         </form>
 
 
@@ -43,7 +47,7 @@
                         <td>{{ vehicle.brand }}</td>
                         <td>{{ vehicle.type.name }}</td>
                         <td>{{ vehicle.get_operation_status_display }}</td>
-                        <td style="color: purple; font-size: 1.2rem;">
+                        <td class="deleted-status">
                             {% if vehicle.is_deleted %}
                                 ✔
                             {% else %}
@@ -81,8 +85,7 @@
                 <ul class="pagination justify-content-center mt-4">
                     {% if page_obj.has_previous %}
                         <li class="page-item">
-                            <a class="page-link" href="?page=
-                                    {{ page_obj.previous_page_number }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">
                                 Предыдущая
                             </a>
                         </li>
@@ -92,15 +95,13 @@
                             <li class="page-item active"><span class="page-link">{{ num }}</span></li>
                         {% else %}
                             <li class="page-item">
-                                <a class="page-link" href="?page=
-                                        {{ num }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ num }}</a>
+                                <a class="page-link" href="?page={{ num }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ num }}</a>
                             </li>
                         {% endif %}
                     {% endfor %}
                     {% if page_obj.has_next %}
                         <li class="page-item">
-                            <a class="page-link" href="?page=
-                                    {{ page_obj.next_page_number }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">
                                 Следующая
                             </a>
                         </li>
@@ -109,4 +110,7 @@
             </nav>
         {% endif %}
     </main>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static '../js/script_delete_btn.js' %}"></script>
 {% endblock %}

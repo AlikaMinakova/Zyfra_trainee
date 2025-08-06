@@ -1,5 +1,6 @@
-{% extends "base.html" %}
+{% extends "vehicle/base.html" %}
 {% load static %}
+{% load thumbnail %}
 
 {% block title %}
     {% if form.instance.pk %}
@@ -68,16 +69,18 @@
             <div class="mb-3">
                 <label class="form-label">Фотографии</label>
                 {{ image_formset.management_form }}
-
                 <div class="row">
                     {% for img_form in image_formset %}
                         {% if img_form.instance.pk %}
                             {{ img_form.id }}
                             <div class="col-md-4 mb-4">
                                 <div class="card">
-                                    <img src="{{ img_form.instance.file.url }}" class="card-img-top img-thumbnail"
-                                         alt="Фото"
-                                         style="max-height: 200px; object-fit: cover;">
+                                    {% if img_form.instance.file %}
+                                        {% thumbnail img_form.instance.file "300x200" crop="center" as thumb %}
+                                            <img src="{{ thumb.url }}" class="card-img-top img-thumbnail custom-img"
+                                                 alt="Фото">
+                                        {% endthumbnail %}
+                                    {% endif %}
                                     <div class="card-body">
                                         <div class="form-check">
                                             {{ img_form.DELETE }}
@@ -89,17 +92,18 @@
                         {% endif %}
                     {% endfor %}
                 </div>
+            </div>
 
-                <div class="row">
-                    {% for form_img in image_formset %}
-                        {% if not form_img.instance.pk %}
-                            <div class="mb-3">
-                                {{ form_img.file }}
-                                {{ form_img.file.errors }}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+            <div class="row">
+                {% for form_img in image_formset %}
+                    {% if not form_img.instance.pk %}
+                        <div class="mb-3">
+                            {{ form_img.file }}
+                            {{ form_img.file.errors }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
             </div>
             {{ image_formset.management_form }}
 

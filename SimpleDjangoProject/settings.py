@@ -33,13 +33,14 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    "vehicle.apps.VehicleConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    'vehicle',
+    'sorl.thumbnail'
 ]
 
 MIDDLEWARE = [
@@ -57,8 +58,7 @@ ROOT_URLCONF = "SimpleDjangoProject.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'front']
-        ,
+        "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

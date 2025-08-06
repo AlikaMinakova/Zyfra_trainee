@@ -1,30 +1,35 @@
-{% extends "base.html" %}
+{% extends "vehicle/base.html" %}
+{% load thumbnail %}
 {% load static %}
 
 {% block title %}Карточка техники{% endblock %}
-
+{% block styles %}
+    <link rel="stylesheet" href="{% static '../css/style.css' %}">
+{% endblock %}
 {% block content %}
     <main class="container mt-5">
         <h2 class="mb-4">Карточка техники</h2>
 
         <div class="mb-4">
-            <p><strong>Регистрационный номер:</strong> {{ vehicle.reg_number }}</p>
-            <p><strong>Бренд:</strong> {{ vehicle.brand }}</p>
-            <p><strong>Дата покупки:</strong> {{ vehicle.date_purchase }}</p>
-            <p><strong>Тип техники:</strong> {{ vehicle.type.name }}</p>
-            <p><strong>Пробег:</strong> {{ vehicle.mileage }} км</p>
-            <p><strong>Статус эксплуатации:</strong>
+            <p><span class="label">Регистрационный номер:</span> {{ vehicle.reg_number }}</p>
+            <p><span class="label">Бренд:</span> {{ vehicle.brand }}</p>
+            <p><span class="label">Дата покупки:</span> {{ vehicle.date_purchase }}</p>
+            <p><span class="label">Тип техники:</span> {{ vehicle.type.name }}</p>
+            <p><span class="label">Пробег:</span> {{ vehicle.mileage }} км</p>
+            <p><span class="label">Статус эксплуатации:</span>
                 {% if vehicle.get_operation_status_display == 'В работе' %}
                     <span class="text-success">в работе</span>
                 {% elif vehicle.get_operation_status_display == 'Ремонт' %}
                     <span class="text-danger">на ремонте</span>
-                {% else %}
+                {% elif vehicle.get_operation_status_display == 'Простаивает' %}
                     <span class="text-warning">простаивает</span>
+                {% else %}
+                    <span class="text-danger">неизвестный тип</span>
                 {% endif %}
             </p>
-            <p><strong>Создано:</strong> {{ vehicle.created_at|date:"Y-m-d" }}</p>
-            <p><strong>Обновлено:</strong> {{ vehicle.updated_at|date:"Y-m-d" }}</p>
-            <p><strong>Удалено:</strong>
+            <p><span class="label">Создано:</span> {{ vehicle.created_at|date:"Y-m-d" }}</p>
+            <p><span class="label">Обновлено:</span> {{ vehicle.updated_at|date:"Y-m-d" }}</p>
+            <p><span class="label">Удалено:</span>
                 {% if vehicle.is_deleted %}
                     <span style="color: red; font-size: 1.2rem;">✔</span>
                 {% else %}
@@ -40,8 +45,10 @@
                     {% for img in images %}
                         {% if img.file %}
                             <div class="col-md-4 col-sm-6">
-                                <img src="{{ img.file.url }}" class="img-fluid rounded shadow-sm"
-                                     alt="Фото {{ forloop.counter }}">
+                                {% thumbnail img.file "300x200" crop="center" as im %}
+                                    <img src="{{ im.url }}" class="img-fluid rounded shadow-sm"
+                                         alt="Фото {{ forloop.counter }}">
+                                {% endthumbnail %}
                             </div>
                         {% endif %}
                     {% endfor %}
@@ -87,6 +94,6 @@
         </div>
 
         <a href="{% url 'vehicle:vehicle_list' %}" class="btn btn-secondary mt-4">Назад к списку техники</a>
-    <p></p>
+        <p></p>
     </main>
 {% endblock %}
