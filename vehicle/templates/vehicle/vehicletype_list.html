@@ -27,7 +27,7 @@
                             <td>{{ vt.name }}</td>
                             <td>{{ vt.created_at|date:"Y-m-d" }}</td>
                             <td>{{ vt.updated_at|date:"Y-m-d" }}</td>
-                            <td style="color: purple; font-size: 1.2rem;">
+                            <td class="deleted-false">
                                 {% if vt.is_deleted %}
                                     ✔
                                 {% else %}
@@ -85,5 +85,5 @@
     </main>
 {% endblock %}
 {% block scripts %}
-    <script src="{% static '../js/script_delete_btn.js' %}"></script>
+    <script src="{% static '../static/vehicle/js/script_delete_btn.js' %}"></script>
 {% endblock %}

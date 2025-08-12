@@ -136,7 +136,7 @@ class VehicleDeleteView(View):
             vehicle.is_deleted = True
             vehicle.save()
             VehicleImage.objects.filter(vehicle=vehicle).update(is_deleted=True)
-        return redirect('vehicle:vehicletype_list')
+        return redirect('vehicle:vehicle_list')
 
 
 class VehicleTypeCreateView(CreateView):
