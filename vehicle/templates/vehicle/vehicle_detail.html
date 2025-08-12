@@ -21,7 +21,7 @@
                     <span class="text-success">в работе</span>
                 {% elif vehicle.get_operation_status_display == 'Ремонт' %}
                     <span class="text-danger">на ремонте</span>
-                {% elif vehicle.get_operation_status_display == 'Простаивает' %}
+                {% elif vehicle.get_operation_status_display == 'Простой' %}
                     <span class="text-warning">простаивает</span>
                 {% else %}
                     <span class="text-danger">неизвестный тип</span>
