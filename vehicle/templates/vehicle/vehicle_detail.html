@@ -1,0 +1,99 @@
+{% extends "vehicle/base.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}Карточка техники{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static '../static/vehicle/css/style.css' %}">
+{% endblock %}
+{% block content %}
+    <main class="container mt-5">
+        <h2 class="mb-4">Карточка техники</h2>
+
+        <div class="mb-4">
+            <p><span class="label">Регистрационный номер:</span> {{ vehicle.reg_number }}</p>
+            <p><span class="label">Бренд:</span> {{ vehicle.brand }}</p>
+            <p><span class="label">Дата покупки:</span> {{ vehicle.date_purchase }}</p>
+            <p><span class="label">Тип техники:</span> {{ vehicle.type.name }}</p>
+            <p><span class="label">Пробег:</span> {{ vehicle.mileage }} км</p>
+            <p><span class="label">Статус эксплуатации:</span>
+                {% if vehicle.get_operation_status_display == 'В работе' %}
+                    <span class="text-success">в работе</span>
+                {% elif vehicle.get_operation_status_display == 'Ремонт' %}
+                    <span class="text-danger">на ремонте</span>
+                {% elif vehicle.get_operation_status_display == 'Простой' %}
+                    <span class="text-warning">простаивает</span>
+                {% else %}
+                    <span class="text-danger">неизвестный тип</span>
+                {% endif %}
+            </p>
+            <p><span class="label">Создано:</span> {{ vehicle.created_at|date:"Y-m-d" }}</p>
+            <p><span class="label">Обновлено:</span> {{ vehicle.updated_at|date:"Y-m-d" }}</p>
+            <p><span class="label">Удалено:</span>
+                {% if vehicle.is_deleted %}
+                    <span class="deleted-true">✔</span>
+                {% else %}
+                    <span class="deleted-false">✘</span>
+                {% endif %}
+            </p>
+        </div>
+
+        {% if images %}
+            <div class="mb-5">
+                <h5 class="mb-3">Фотографии</h5>
+                <div class="row g-3">
+                    {% for img in images %}
+                        {% if img.file %}
+                            <div class="col-md-4 col-sm-6">
+                                {% thumbnail img.file "300x200" crop="center" as im %}
+                                    <img src="{{ im.url }}" class="img-fluid rounded shadow-sm"
+                                         alt="Фото {{ forloop.counter }}">
+                                {% endthumbnail %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+
+        {# Заглушка для раздела "Запчасти" #}
+        <h5 class="mb-3">Запчасти</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Тип</th>
+                    <th>Статус</th>
+                    <th>Дата установки</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                <tr>
+                    <td>17</td>
+                    <td>Шина</td>
+                    <td>Установлено</td>
+                    <td>2025-01-15</td>
+                    <td class="text-start">
+                        <a href="#" class="btn btn-info btn-sm text-white">Открыть</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>Фильтр</td>
+                    <td>На складе</td>
+                    <td>—</td>
+                    <td class="text-start">
+                        <a href="#" class="btn btn-info btn-sm text-white">Открыть</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'vehicle:vehicle_list' %}" class="btn btn-secondary mt-4">Назад к списку техники</a>
+        <p></p>
+    </main>
+{% endblock %}
