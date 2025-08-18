@@ -23,6 +23,7 @@ from SimpleDjangoProject import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('vehicle/', include('vehicle.urls', namespace='vehicle')),
+    path('spare-part/', include('spare_parts.urls', namespace='spare_part')),
 ]
 
 if settings.DEBUG:

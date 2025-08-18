@@ -1,0 +1,105 @@
+{% extends "vehicle/base.html" %}
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}Карточка запчасти{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static '../static/spare_part/css/style.css' %}">
+{% endblock %}
+{% block content %}
+    <main class="container mt-5">
+        <h2 class="mb-4">Карточка запчасти</h2>
+
+        <div class="mb-4">
+            <p><span class="label">Тип запчасти:</span> {{ spare_part.spare_part_type }}</p>
+            <p><span class="label">Техника:</span> {{ spare_part.vehicle }}</p>
+            <p><span class="label">Статус эксплуатации:</span>
+                {% if spare_part.get_status_display == 'Установлено' %}
+                    <span class="text-success">установлено</span>
+                {% elif spare_part.get_status_display == 'В ремонте' %}
+                    <span class="text-danger">в ремонте</span>
+                {% elif spare_part.get_status_display == 'Ожидает ремонт' %}
+                    <span class="text-danger">ожидает ремонт</span>
+                {% elif spare_part.get_status_display == 'На складе' %}
+                    <span class="text-warning">на складе</span>
+                {% else %}
+                    <span class="text-danger">неизвестный тип</span>
+                {% endif %}
+            </p>
+            <p><span class="label">Создано:</span> {{ spare_part.created_at|date:"Y-m-d" }}</p>
+            <p><span class="label">Обновлено:</span> {{ spare_part.updated_at|date:"Y-m-d" }}</p>
+            <p><span class="label">Удалено:</span>
+                {% if spare_part.is_deleted %}
+                    <span class="deleted-true">✔</span>
+                {% else %}
+                    <span class="deleted-false">✘</span>
+                {% endif %}
+            </p>
+        </div>
+
+        {% if attributes %}
+            <h5>Атрибуты</h5>
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-light">
+                    <tr>
+                        <th>Нзвание</th>
+                        <th>Значение</th>
+                        <th>Ед. измерения</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for attr in attributes %}
+                        <tr>
+                            <td>{{ attr.name }}</td>
+                            <td>{{ attr.value }}</td>
+                            <td>{{ attr.unit }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        {% if spare_part_images %}
+            <div class="mb-5">
+                <h5 class="mb-3">Фотографии</h5>
+                <div class="row g-3">
+                    {% for img in spare_part_images %}
+                        {% if img.file %}
+                            <div class="col-md-4 col-sm-6">
+                                {% thumbnail img.file "300x200" crop="center" as im %}
+                                    <img src="{{ im.url }}" class="img-fluid rounded shadow-sm"
+                                         alt="Фото {{ forloop.counter }}">
+                                {% endthumbnail %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <h5 class="mb-3">Лог изменений</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>Дата</th>
+                    <th>Лог</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for log in change_logs %}
+                    <tr>
+                        <td>{{ log.timestamp }}</td>
+                        <td>{{ log.message }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <a href="{% url 'spare_part:spare_part_list' %}" class="btn btn-secondary mt-4">Назад к списку запчастей</a>
+        <p></p>
+    </main>
+{% endblock %}

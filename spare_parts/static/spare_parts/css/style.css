@@ -1,0 +1,22 @@
+.deleted-status {
+    color: purple;
+    font-size: 1.2rem;
+}
+
+.label {
+    color: #333;
+}
+
+.custom-img {
+    max-height: 200px;
+    object-fit: cover;
+}
+.deleted-true{
+    color: red;
+    font-size: 1.2rem;
+}
+.deleted-false{
+    color: purple;
+    font-size: 1.2rem;
+}
+.col2 * { width:100%;}

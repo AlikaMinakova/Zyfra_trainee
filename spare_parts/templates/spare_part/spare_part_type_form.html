@@ -1,0 +1,129 @@
+{% extends "spare_part/base.html" %}
+{% load static %}
+{% load thumbnail %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Редактирование типа запчасти
+    {% else %}
+        Создание типа запчасти
+    {% endif %}
+{% endblock %}
+{% block content %}
+    <main class="container mt-5 mb-5">
+        {% if form.instance.pk %}
+            <h2 class="mb-4"> Редактирование типа запчасти</h2>
+        {% else %}
+            <h2 class="mb-4">Создание типа запчасти</h2>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" action="
+                        {% if form.instance.pk %}
+                            {% url 'spare_part:spare_part_type_update' form.instance.pk %}
+                        {% else %}
+                            {% url 'spare_part:spare_part_type_create' %}
+                        {% endif %}">
+            {% csrf_token %}
+            {{ attribute_formset.management_form }}
+
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                <div class="mb-3 d-flex align-items-center">
+                    <label for="{{ field.id_for_label }}" class="me-2 mb-0">{{ field.label }}</label>
+                    <div class="flex-grow-1">
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+
+            <!-- Атрибуты -->
+            {% if attribute_formset.initial %}
+                <h4 class="mt-4">Атрибуты</h4>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle">
+                        <thead class="table-light">
+                        <tr>
+                            <th>✔</th>
+                            <th>Название</th>
+                            <th>Значение</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for form in attribute_formset %}
+                            {% for field in form.hidden_fields %}
+                                {{ field }}
+                            {% endfor %}
+                            <tr>
+                                <td>
+                                    {{ form.is_selected }}
+                                </td>
+                                <td>
+                                    {{ form.initial.attribute_name }}
+                                </td>
+                                <td>
+                                    {{ form.value }}
+                                    {% for error in form.value.errors %}
+                                        <div class="text-danger small">{{ error }}</div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+
+
+            <div class="mb-3">
+                <h4 class="mt-4">Фотографии</h4>
+                {{ image_formset.management_form }}
+                <div class="row">
+                    {% for img_form in image_formset %}
+                        {% if img_form.instance.pk %}
+                            {{ img_form.id }}
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    {% if img_form.instance.file %}
+                                        {% thumbnail img_form.instance.file "300x200" crop="center" as thumb %}
+                                            <img src="{{ thumb.url }}" class="card-img-top img-thumbnail custom-img"
+                                                 alt="Фото">
+                                        {% endthumbnail %}
+                                    {% endif %}
+                                    <div class="card-body">
+                                        <div class="form-check">
+                                            {{ img_form.DELETE }}
+                                            <label class="form-check-label" for="{{ img_form.DELETE.id_for_label }}">Удалить</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row">
+                {% for form_img in image_formset %}
+                    {% if not form_img.instance.pk %}
+                        <div class="mb-3">
+                            {{ form_img.file }}
+                            {{ form_img.file.errors }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {{ image_formset.management_form }}
+            <p></p>
+            {% if form.instance.pk %}
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            {% endif %}
+        </form>
+    </main>
+
+{% endblock %}

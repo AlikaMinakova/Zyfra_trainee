@@ -1,55 +1,37 @@
-{% extends "vehicle/base.html" %}
+{% extends "spare_part/base.html" %}
 {% load static %}
 
-{% block title %}Список техники{% endblock %}
+{% block title %}Список запчастей{% endblock %}
 {% block styles %}
-    <link rel="stylesheet" href="{% static '../static/vehicle/css/style.css' %}">
+    <link rel="stylesheet" href="{% static '../static/spare_part/css/style.css' %}">
 {% endblock %}
 {% block content %}
     <main class="container mt-5">
-        <h2 class="mb-4">Список техники</h2>
-
-        <form method="get" class="mb-4" style="max-width: 100%;">
-            <div class="mb-3">
-                <label for="brandFilter" class="form-label">Фильтр по бренду</label>
-                <div class="input-group mb-3">
-                    <input
-                            type="text"
-                            name="{{ filter_form.brand.html_name }}"
-                            value="{{ filter_form.brand.value|default_if_none:'' }}"
-                            class="form-control"
-                            id="brandFilter"
-                            placeholder="Например, УРАЛ"
-                    >
-                    <button class="btn btn-primary" type="submit">Найти</button>
-                </div>
-            </div>
-        </form>
-
+        <h2 class="mb-4">Список запчастей</h2>
 
         <div class="table-responsive">
             <table class="table table-bordered align-middle">
                 <thead class="table-light text-center">
                 <tr>
                     <th>ID</th>
-                    <th>Рег. номер</th>
-                    <th>Бренд</th>
                     <th>Тип</th>
+                    <th>Техника</th>
                     <th>Статус</th>
+                    <th>Создано</th>
                     <th>Удалено</th>
                     <th>Действия</th>
                 </tr>
                 </thead>
                 <tbody class="text-center">
-                {% for vehicle in vehicles %}
+                {% for spare_part in spare_parts %}
                     <tr>
-                        <td>{{ vehicle.id }}</td>
-                        <td>{{ vehicle.reg_number }}</td>
-                        <td>{{ vehicle.brand }}</td>
-                        <td>{{ vehicle.type.name }}</td>
-                        <td>{{ vehicle.get_operation_status_display }}</td>
+                        <td>{{ spare_part.id }}</td>
+                        <td>{{ spare_part.spare_part_type }}</td>
+                        <td>{{ spare_part.vehicle }}</td>
+                        <td>{{ spare_part.get_status_display }}</td>
+                        <td>{{ spare_part.created_at }}</td>
                         <td class="deleted-status">
-                            {% if vehicle.is_deleted %}
+                            {% if spare_part.is_deleted %}
                                 ✔
                             {% else %}
                                 ✘
@@ -57,14 +39,14 @@
                         </td>
                         <td>
                             <div class="d-flex gap-2 justify-content-start">
-                                <a href="{% url 'vehicle:vehicle_detail' vehicle.pk %}"
+                                <a href="{% url 'spare_part:spare_part_detail' spare_part.pk %}"
                                    class="btn btn-secondary btn-sm">Открыть</a>
 
-                                {% if not vehicle.is_deleted %}
-                                    <a href="{% url 'vehicle:vehicle_update' vehicle.pk %}"
+                                {% if not spare_part.is_deleted %}
+                                    <a href="{% url 'spare_part:spare_part_update' spare_part.pk %}"
                                        class="btn btn-info btn-sm text-white">Редактировать</a>
-                                    <form action="{% url 'vehicle:vehicle_delete' vehicle.pk %}" method="post"
-                                          onsubmit="return confirm('Удалить технику?');">
+                                    <form action="{% url 'spare_part:spare_part_delete' spare_part.pk %}" method="post"
+                                          onsubmit="return confirm('Удалить запчасть?');">
                                         {% csrf_token %}
                                         <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
                                     </form>
@@ -74,7 +56,7 @@
                     </tr>
                 {% empty %}
                     <tr>
-                        <td colspan="7" class="text-center text-muted">Нет техники по заданному фильтру.</td>
+                        <td colspan="7" class="text-center text-muted">Запчастей пока нет</td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -86,8 +68,7 @@
                 <ul class="pagination justify-content-center mt-4">
                     {% if page_obj.has_previous %}
                         <li class="page-item">
-                            <a class="page-link" href="?page=
-                                    {{ page_obj.previous_page_number }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
                                 Предыдущая
                             </a>
                         </li>
@@ -97,15 +78,13 @@
                             <li class="page-item active"><span class="page-link">{{ num }}</span></li>
                         {% else %}
                             <li class="page-item">
-                                <a class="page-link" href="?page=
-                                        {{ num }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">{{ num }}</a>
+                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
                             </li>
                         {% endif %}
                     {% endfor %}
                     {% if page_obj.has_next %}
                         <li class="page-item">
-                            <a class="page-link" href="?page=
-                                    {{ page_obj.next_page_number }}{% if request.GET.brand %}&brand={{ request.GET.brand }}{% endif %}">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">
                                 Следующая
                             </a>
                         </li>
@@ -116,5 +95,5 @@
     </main>
 {% endblock %}
 {% block scripts %}
-    <script src="{% static '../static/vehicle/js/script_delete_btn.js' %}"></script>
+    <script src="{% static '../static/spare_part/js/script_delete_btn.js' %}"></script>
 {% endblock %}

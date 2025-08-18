@@ -1,0 +1,93 @@
+{% extends "spare_part/base.html" %}
+{% load static %}
+
+{% block title %}Список типов запчастей{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" href="{% static '../static/spare_part/css/style.css' %}">
+{% endblock %}
+{% block content %}
+    <main class="container mt-5">
+        <h2 class="mb-4">Список типов запчастей</h2>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Дата создания</th>
+                    <th>Удалено</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                {% for spare_part_type in spare_part_types %}
+                    <tr>
+                        <td>{{ spare_part_type.id }}</td>
+                        <td>{{ spare_part_type.name }}</td>
+                        <td>{{ spare_part_type.created_at }}</td>
+                        <td class="deleted-status">
+                            {% if spare_part_type.is_deleted %}
+                                ✔
+                            {% else %}
+                                ✘
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-start">
+
+                                {% if not spare_part_type.is_deleted %}
+                                    <a href="{% url 'spare_part:spare_part_type_update' spare_part_type.pk %}"
+                                       class="btn btn-info btn-sm text-white">Редактировать</a>
+                                    <form action="{% url 'spare_part:spare_part_type_delete' spare_part_type.pk %}"
+                                          method="post"
+                                          onsubmit="return confirm('Удалить тип запчасти?');">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">Типов запчастей пока нет</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if is_paginated %}
+            <nav aria-label="Навигация по страницам">
+                <ul class="pagination justify-content-center mt-4">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                                Предыдущая
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                        {% if page_obj.number == num %}
+                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                                Следующая
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    </main>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static '../static/spare_part/js/script_delete_btn.js' %}"></script>
+{% endblock %}
