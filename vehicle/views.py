@@ -4,6 +4,7 @@ from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView, DetailView, ListView, View
 
+from spare_parts.models import SparePart, SparePartLog
 from .forms import VehicleForm, VehicleImageForm, VehicleFilterForm
 from .forms import VehicleTypeForm
 from .models import Vehicle, VehicleImage, VehicleType
@@ -107,6 +108,11 @@ class VehicleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['images'] = self.object.images.filter(is_deleted=False)
+        context['spare_parts'] = (
+            self.object.spare_parts.filter(is_deleted=False)
+            .select_related('spare_part_type')
+            .only('created_at', 'status', 'spare_part_type__name')
+        )
         return context
 
 
@@ -135,7 +141,12 @@ class VehicleDeleteView(View):
             vehicle = get_object_or_404(Vehicle, pk=pk)
             vehicle.is_deleted = True
             vehicle.save()
+
             VehicleImage.objects.filter(vehicle=vehicle).update(is_deleted=True)
+
+            spare_parts = SparePart.objects.filter(vehicle=vehicle)
+            spare_parts.update(is_deleted=True)
+            SparePartLog.objects.filter(spare_part__in=spare_parts).update(is_deleted=True)
         return redirect('vehicle:vehicle_list')
 
 
@@ -185,4 +196,8 @@ class VehicleTypeDeleteView(View):
             vehicles.update(is_deleted=True)
 
             VehicleImage.objects.filter(vehicle__in=vehicles).update(is_deleted=True)
+
+            spare_parts = SparePart.objects.filter(vehicle__in=vehicles)
+            spare_parts.update(is_deleted=True)
+            SparePartLog.objects.filter(spare_part__in=spare_parts).update(is_deleted=True)
         return redirect('vehicle:vehicletype_list')

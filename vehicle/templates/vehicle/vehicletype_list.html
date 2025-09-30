@@ -7,55 +7,55 @@
     <main class="container mt-5 mb-5">
         <h2 class="mb-4">Типы техники</h2>
 
-        {% if types %}
-            <div class="table-responsive">
-                <table class="table table-bordered align-middle">
-                    <thead class="table-light text-center">
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Создано</th>
+                    <th>Обновлено</th>
+                    <th>Удалено</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody class="text-center">
+                {% for vt in types %}
                     <tr>
-                        <th>ID</th>
-                        <th>Название</th>
-                        <th>Создано</th>
-                        <th>Обновлено</th>
-                        <th>Удалено</th>
-                        <th>Действия</th>
-                    </tr>
-                    </thead>
-                    <tbody class="text-center">
-                    {% for vt in types %}
-                        <tr>
-                            <td>{{ vt.id }}</td>
-                            <td>{{ vt.name }}</td>
-                            <td>{{ vt.created_at|date:"Y-m-d" }}</td>
-                            <td>{{ vt.updated_at|date:"Y-m-d" }}</td>
-                            <td class="deleted-false">
-                                {% if vt.is_deleted %}
-                                    ✔
-                                {% else %}
-                                    ✘
-                                {% endif %}
-                            </td>
-                            <td>
-                                <div class="d-flex gap-2 justify-content-start">
-                                    <a href="{% url 'vehicle:vehicletype_update' vt.id %}"
-                                       class="btn btn-secondary btn-sm">Открыть</a>
-                                    {% if not vt.is_deleted %}
-                                        <form action="{% url 'vehicle:vehicletype_delete' vt.id %}" method="post"
-                                              onsubmit="return confirm('Удалить тип техники?');">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
-                                        </form>
+                        <td>{{ vt.id }}</td>
+                        <td>{{ vt.name }}</td>
+                        <td>{{ vt.created_at|date:"Y-m-d" }}</td>
+                        <td>{{ vt.updated_at|date:"Y-m-d" }}</td>
+                        <td class="deleted-false">
+                            {% if vt.is_deleted %}
+                                ✔
+                            {% else %}
+                                ✘
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="d-flex gap-2 justify-content-start">
+                                <a href="{% url 'vehicle:vehicletype_update' vt.id %}"
+                                   class="btn btn-secondary btn-sm">Открыть</a>
+                                {% if not vt.is_deleted %}
+                                    <form action="{% url 'vehicle:vehicletype_delete' vt.id %}" method="post"
+                                          onsubmit="return confirm('Удалить тип техники?');">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                                    </form>
 
-                                    {% endif %}
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% else %}
-            <p>Типы техники не найдены.</p>
-        {% endif %}
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">Типов техники пока нет</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
         {% if is_paginated %}
             <nav aria-label="Навигация по страницам">

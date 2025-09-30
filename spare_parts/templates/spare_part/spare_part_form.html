@@ -1,0 +1,65 @@
+{% extends "spare_part/base.html" %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Редактирование запчасти
+    {% else %}
+        Создание запчасти
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <main class="container mt-5 mb-5">
+        <h2 class="mb-4">
+            {% if form.instance.pk %}
+                Редактирование запчасти
+            {% else %}
+                Создание запчасти
+            {% endif %}
+        </h2>
+        <form method="post" enctype="multipart/form-data" action="
+                        {% if form.instance.pk %}
+                            {% url 'spare_part:spare_part_update' form.instance.pk %}
+                        {% else %}
+                            {% url 'spare_part:spare_part_create' %}
+                        {% endif %}">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                {{ form.spare_part_type.label_tag }}
+                {{ form.spare_part_type }}
+                {% if form.spare_part_type.errors %}
+                    <div class="text-danger small">
+                        {{ form.spare_part_type.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                {{ form.vehicle.label_tag }}
+                {{ form.vehicle }}
+                {% if form.vehicle.errors %}
+                    <div class="text-danger small">
+                        {{ form.vehicle.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-3">
+                {{ form.status.label_tag }}
+                {{ form.status }}
+                {% if form.status.errors %}
+                    <div class="text-danger small">
+                        {{ form.status.errors.0 }}
+                    </div>
+                {% endif %}
+            </div>
+
+            {% if form.instance.pk %}
+                <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+            {% else %}
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            {% endif %}
+        </form>
+    </main>
+{% endblock %}

@@ -35,7 +35,7 @@ class Vehicle(models.Model):
     is_deleted = models.BooleanField(default=False, verbose_name='Удалён')
 
     def __str__(self):
-        return f'{self.brand} ({self.reg_number})'
+        return f'{self.brand} {self.reg_number}'
 
 
 class VehicleImage(models.Model):

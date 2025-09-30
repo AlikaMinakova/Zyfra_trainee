@@ -4,7 +4,6 @@
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto">
 
-                <!-- Раздел Техника -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="techDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
@@ -24,10 +23,14 @@
                         Запчасти
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="partsDropdown">
-                        <li><a class="dropdown-item" href="#">Создать тип</a></li>
-                        <li><a class="dropdown-item" href="#">Список типов</a></li>
-                        <li><a class="dropdown-item" href="#">Создать запчасть</a></li>
-                        <li><a class="dropdown-item" href="#">Список запчастей</a></li>
+                        <li><a class="dropdown-item" href="{% url 'spare_part:spare_part_type_create' %}">Создать
+                            тип</a></li>
+                        <li><a class="dropdown-item" href="{% url 'spare_part:spare_part_type_list' %}">Список типов</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'spare_part:spare_part_create' %}">Создать
+                            запчасть</a></li>
+                        <li><a class="dropdown-item" href="{% url 'spare_part:spare_part_list' %}">Список запчастей</a>
+                        </li>
                     </ul>
                 </li>
 
@@ -37,8 +40,10 @@
                         Атрибуты
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="attrDropdown">
-                        <li><a class="dropdown-item" href="#">Создать атрибут</a></li>
-                        <li><a class="dropdown-item" href="#">Список атрибутов</a></li>
+                        <li><a class="dropdown-item" href="{% url 'spare_part:attribute_create' %}">Создать атрибут</a>
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'spare_part:attribute_list' %}">Список атрибутов</a>
+                        </li>
                     </ul>
                 </li>
 
